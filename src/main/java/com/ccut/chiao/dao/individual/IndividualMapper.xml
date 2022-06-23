@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccut.chiao.dao.individual.IndividualMapper">
+
+    <insert id="insertIndividual" parameterType="Individual">
+        insert into fund.tb003(accnum, accname, papno, unitaccnum, opendate, basenumber, unitprop, perprop,
+                               unitmonpaysum, permonpaysum, op, remark)
+        values (#{accNum}, #{accName}, #{papNo}, #{unitAccNum}, #{openDate}, #{baseNumber}, #{unitProp},
+                #{perProp}, #{unitMonPaySum}, #{perMonPaySum}, #{op}, #{remark})
+    </insert>
+    <update id="updateIndividual" parameterType="Individual">
+        update fund.tb003
+        set accname = #{accName},
+            papno   = #{papNo},
+            remark  = #{remark}
+        where accnum = #{accNum}
+    </update>
+    <update id="closeIndividual" parameterType="String">
+        update fund.tb003
+        set peraccstate=9
+        where accnum = #{accNum}
+    </update>
+    <select id="findByAccNum" parameterType="String" resultType="Individual">
+        select t1.*, t2.unitaccname
+        from fund.tb003 t1
+                 join fund.tb002 t2
+        where t1.peraccstate = 0
+          and t1.unitaccnum = t2.unitaccnum
+          and accnum = #{accNum}
+    </select>
+    <select id="getIndividualList" resultType="Individual">
+        select *
+        from fund.tb003
+    </select>
+    <select id="findTotalCount" resultType="java.lang.Integer">
+        select count(*) totalcount
+        from fund.tb003
+    </select>
+    <select id="getIndividualByAccNumOrPapNo" resultType="Individual" parameterType="string">
+        select *
+        from fund.tb003
+        where accnum = #{accName}
+           or papno = #{accName}
+
+    </select>
+    <select id="getIndividual" resultType="Individual">
+        select *
+        from fund.tb003
+        where accnum = #{accNum}
+    </select>
+</mapper>

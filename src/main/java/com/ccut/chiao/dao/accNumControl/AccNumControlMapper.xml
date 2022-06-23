@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccut.chiao.dao.accNumControl.AccNumControlMapper">
+    <update id="updateUnitSeq" parameterType="integer">
+        update tb001
+        set seq=#{seq} + 1
+        where seqname = 'unitaccnum'
+    </update>
+    <update id="updatePersonSeq" parameterType="integer">
+        update tb001
+        set seq=#{seq} + 1
+        where seqname = 'peraccnum'
+    </update>
+
+    <select id="findSeqByUnit" resultType="java.lang.Integer">
+        SELECT seq
+        FROM tb001
+        WHERE seqname = 'unitaccnum'
+    </select>
+    <select id="findSeqByPerson" resultType="java.lang.Integer">
+        SELECT seq
+        FROM tb001
+        WHERE seqname = 'peraccnum'
+    </select>
+</mapper>

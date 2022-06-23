@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccut.chiao.dao.unit.UnitMapper">
+
+    <insert id="insertUnit" parameterType="Unit">
+        insert into fund.tb002(unitaccnum, unitaccname, unitaddress, orgcode, unitchar, unitkind, salarydate, unitphone,
+                               unitlinkman, unitagentpapno, unitprop, perprop, op, createdate, remark)
+        values (#{unitAccNum}, #{unitAccName}, #{unitAddress}, #{orgCode}, #{unitChar}, #{unitKind}, #{salaryDate},
+                #{unitPhone}, #{unitLinkMan}, #{unitAgentPapno}, #{unitProp}, #{perProp}, #{op}, #{createDate},
+                #{remark})
+    </insert>
+    <update id="updateUnit" parameterType="Unit">
+        update fund.tb002
+        set unitaccname   = #{unitAccName},
+            unitaddress   = #{unitAddress},
+            orgcode       = #{orgCode},
+            unitchar=#{unitChar},
+            unitkind=#{unitKind},
+            salarydate    = #{salaryDate},
+            unitphone=#{unitPhone},
+            unitlinkman=#{unitLinkMan},
+            unitAgentPapno=#{unitAgentPapno},
+            remark=#{remark}
+        where unitaccnum = #{unitAccNum}
+    </update>
+    <update id="closeUnit" parameterType="string">
+        update fund.tb002
+        set accstate=9
+        where unitaccnum = #{unitAccNum}
+          and persnum = 0
+    </update>
+
+    <select id="findByAccNum" resultType="Unit">
+        select *
+        from tb002
+        where accstate = 0
+          and unitaccnum = #{unitAccNum}
+    </select>
+    <select id="getUnitList" resultType="Unit">
+        select *
+        from tb002
+    </select>
+    <select id="findTotalCount" resultType="java.lang.Integer">
+        select count(*) totalcount
+        from tb002
+    </select>
+    <select id="getUnitTypeList" resultType="com.ccut.chiao.entity.UnitType">
+        select *
+        from tb005;
+    </select>
+    <select id="getUnitByNameOrType" resultType="Unit">
+        select *
+        from tb002
+        where unitaccname like "%"#{unitAccName}"%" or unitaccnum = #{unitAccName}
+          and unitchar = #{unitChar}
+    </select>
+    <select id="getUnitByType" resultType="Unit">
+        select *
+        from tb002
+        where unitchar = #{unitChar}
+    </select>
+    <select id="getUnitByName" resultType="Unit">
+        select *
+        from tb002
+        where unitaccname like "%"#{unitAccName}"%" or unitaccnum=#{unitAccName}
+    </select>
+    <select id="getUnit" resultType="com.ccut.chiao.entity.Unit">
+        select *
+        from tb002
+        where unitaccnum = #{unitAccNum}
+    </select>
+    <select id="getUnitKindList" resultType="UnitKind">
+        select *
+        from tb006;
+    </select>
+</mapper>
